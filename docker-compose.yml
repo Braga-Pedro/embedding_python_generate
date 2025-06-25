@@ -1,0 +1,50 @@
+services:
+  pgsql_smart_search:
+    image: pgvector/pgvector:pg17
+    # restart: always
+    environment:
+      POSTGRES_DB: smart_search_db
+      POSTGRES_USER: smart_search_user
+      POSTGRES_PASSWORD: smart_search_secret
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - docker-network
+
+  ollama_smart_search:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    entrypoint: >
+      sh -c "ollama serve & sleep 2 && ollama pull phi && wait"
+    networks:
+      - docker-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.85'
+          memory: 3g
+
+  # setup_smart_search:
+  #   build:
+  #     dockerfile: ./docker/python/Dockerfile
+  #   volumes:
+  #     - ./src/data:/app/data
+  #     - ./src/scripts:/app
+  #   depends_on:
+  #     - pgsql_smart_search
+  #   command: ["python3", "main.py"]
+  #   networks:
+  #     - docker-network
+      
+volumes:
+  ollama:
+  db_data:
+
+networks:
+  docker-network:
+    driver: bridge
