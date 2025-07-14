@@ -29,17 +29,20 @@ services:
           cpus: '0.85'
           memory: 3g
 
-  # setup_smart_search:
-  #   build:
-  #     dockerfile: ./docker/python/Dockerfile
-  #   volumes:
-  #     - ./src/data:/app/data
-  #     - ./src/scripts:/app
-  #   depends_on:
-  #     - pgsql_smart_search
-  #   command: ["python3", "main.py"]
-  #   networks:
-  #     - docker-network
+  setup_smart_search:
+    build:
+      dockerfile: ./docker/python/Dockerfile
+    volumes:
+      - ./src:/embedding
+      - ./data:/embedding/data
+    depends_on:
+      - pgsql_smart_search
+      - ollama_smart_search
+    command: >
+      sh -c "/embedding/wait-for-it.sh ollama_smart_search:11434 --timeout=120 -- \
+           python3 main.py"
+    networks:
+      - docker-network
       
 volumes:
   ollama:
