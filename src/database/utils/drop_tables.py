@@ -1,4 +1,4 @@
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 
 def drop_table():
@@ -12,4 +12,3 @@ def drop_table():
     close_connection(conn)
 
     print("[✔] Tabelas 'activity_embeddings', 'text_embeddings' e 'companies' removidas com sucesso.")
-    # Chama o método para apagar as tabelas ao final do main

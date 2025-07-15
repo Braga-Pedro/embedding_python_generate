@@ -1,10 +1,8 @@
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 
 def create_text_embeddings_table():
-    """
-    Cria a tabela 'text_embeddings' no banco de dados PostgreSQL para armazenar embeddings de textos.
-    """
+    
     conn = get_connection(connection_credentials)
 
     try:
@@ -22,7 +20,6 @@ def create_text_embeddings_table():
                 );
             """)
 
-            # 3. Criar função de trigger para atualizar o campo updated_at
             cur.execute("""
                 CREATE OR REPLACE FUNCTION update_updated_at_column()
                 RETURNS TRIGGER AS $$
@@ -33,7 +30,6 @@ def create_text_embeddings_table():
                 $$ language 'plpgsql';
             """)
 
-            # 4. Criar trigger associada à tabela text_embeddings
             cur.execute("""
                 DO $$
                 BEGIN

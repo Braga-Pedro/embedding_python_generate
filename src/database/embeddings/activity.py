@@ -1,16 +1,6 @@
-"""
-### Módulo de geração de embedding para as atividades exercidas de cada empresa
-Objetivo: quando realizado busca por atividade deve ser retornado as empresas que contém a maior similaridade a partir dos embedding da atividade pesquisado pelo cliente.
-Ou seja, gerar embedding das atividades de cada empresa:
-- sanitizar os dados em atividades, já que são palavras chaves dividas por ','
-- gerar embedding passando arrays de pelo menos 6 - 10 empresas para geração de emebedding para otimizar o tempo de processamento e a quantidade de requisições realizadas
-- deve ser persistido na tabela contexts no campo ativadades_embeddings (ou um nome melhor relativo a ser um campo que guardará os embedding de atividades) levando em conta que cada empresa tem uma atividade, então será necessário uma lógica para pegar os embedding das atividades de cada empresa
-"""
-# embeddings/activity_embeddings.py
-
 import requests
 from psycopg2.extras import execute_values
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 from bs4 import BeautifulSoup
 import html

@@ -1,20 +1,7 @@
-"""
-### Módulo de geração de embedding para os textos das empresas
-Objetivo: Quando realizado uma busca vetorial/RAG deve ser retornado o conteúdo que mais tem similaridade com a frase/palavra que o cliente está buscando e retornar a empresa que tem esse texto a partir da pesquisa por similaridade.
-Ou seja, gerar embedding de cada texto de cada empresa:
-- sanitizar o campo texto que vem com elementos html, espaços em branco e espaçamentos incorretos
-- pegar tamanho do texto, se tamanho do texto maior que 300, realizar lógica para 'dividir texto' ou quebrar em batchs para melhor processamento para geração de embedding de maneira que ainda seja atrelado àquela empresa para ser persistido
-- gerar blocos de 5-15 textos de empresas para geração de embedding usando o campo 'prompts' de multiplos prompts para geração multipla de embedding mais performaticos
-- deve ser persistido na tabela contexts no campo textos_embeddings (ou um nome melhor relativo a ser um campo que guardará os embedding dos textos) levando em conta que cada empresa tem um texto, então será necessário uma lógica para pegar os embedding dos textos de cada empresa
-- adicionar nome da empresa no texto para realização da busca vetorial
-"""
-
-# embeddings/text_embeddings.py
-
 import requests
 import html
 from psycopg2.extras import execute_values
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 from bs4 import BeautifulSoup
 from time import sleep

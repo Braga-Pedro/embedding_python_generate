@@ -1,5 +1,5 @@
 from config import CSV_PATH_EMPRESAS_ATIVAS, CSV_PATH_EMPRESAS_INATIVAS, LLM_URL, validate_env
-from database.validation import validate_tables
+from database.utils.validation import validate_tables
 from formatters.get_csv import load_csv_data
 from database.migrations.companies import create_companies_table
 from database.migrations.text_embeddings import create_text_embeddings_table
@@ -10,6 +10,7 @@ from database.embeddings.activity import generate_activity_embeddings
 from database.embeddings.text import generate_text_embeddings
 
 def main():
+    # Valida as variáveis de ambiente necessárias
     validate_env()
     # Verifica se as tabelas existem e possuem dados
     if validate_tables():
@@ -20,6 +21,7 @@ def main():
         drop_table()
 
         # Cria tabelas no banco de dados
+
         create_companies_table()
         create_text_embeddings_table()
         create_activity_embeddings_table()
@@ -30,8 +32,6 @@ def main():
 
         generate_activity_embeddings(LLM_URL)
         generate_text_embeddings(LLM_URL)
-
-        # drop_table()
 
 if __name__ == '__main__':
     main()

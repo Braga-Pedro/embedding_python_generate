@@ -1,21 +1,8 @@
-# pega conexão feita em connection.py e valida se as tabelas companies e contexts existem e se já há dados inseridos nelas
-# validar de forma isolada, se uma das duas tabelas não existir ou se não houver dados inseridos nelas, retornar False
-# se ambas as tabelas existirem e já houver dados inseridos nelas, retornar True
-
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 
 def table_exists_and_has_data(cursor, table_name):
-    """
-    Verifica se uma tabela existe e contém ao menos um registro.
 
-    Args:
-        cursor (psycopg2.cursor): Cursor ativo do banco de dados.
-        table_name (str): Nome da tabela a ser verificada.
-
-    Retorna:
-        bool: True se a tabela existe e possui dados, False caso contrário.
-    """
     try:
         cursor.execute("""
             SELECT EXISTS (
@@ -43,13 +30,7 @@ def table_exists_and_has_data(cursor, table_name):
         return False
 
 def validate_tables():
-    """
-    Valida a existência e presença de dados nas tabelas 'companies' e 'contexts'.
 
-    Retorna:
-        bool: True se ambas as tabelas existem e contêm dados, False caso contrário.
-    """
-    # conn = None
     conn = get_connection(connection_credentials)
 
     try:

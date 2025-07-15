@@ -1,16 +1,6 @@
-# pega o csv do diretório ../../../data/empresas_ativas.csv && ../../../data/empresas_inativas.csv
-# este metodo vai ser utilizado para pegar o csv que será utilizado por data_formatter.py para formatar/limpar os dados do csv
-
-
 import pandas as pd
 
 def load_csv_data(path_ativa, path_inativa):
-    """
-    Carrega os arquivos CSV de empresas ativas e inativas.
-
-    Retorna:
-        tuple: (df_empresas_ativas, df_empresas_inativas)
-    """
 
     if not path_ativa or not path_inativa:
         raise FileNotFoundError("Caminhos para os arquivos CSV não definidos no .env")

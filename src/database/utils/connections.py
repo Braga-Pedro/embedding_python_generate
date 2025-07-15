@@ -1,18 +1,7 @@
-# faz conexão com o banco de dados PostgreSQL usando psycopg2
-# carrega as variáveis de ambiente do arquivo .env 
-# e retorna a conexão para ser usada em outros scripts
-
 import psycopg2
 
 def get_connection(credentials):
-    """
-    Estabelece uma conexão com o banco de dados PostgreSQL.
 
-    Retorna:
-        conn (psycopg2.connection): Conexão ativa com o banco.
-    Lança:
-        Exception: Em caso de falha na conexão.
-    """
     print("[i] Tentando conectar ao banco de dados PostgreSQL...")
 
     try:
@@ -31,12 +20,6 @@ def get_connection(credentials):
         raise Exception("Erro ao conectar ao banco de dados: ", error)
 
 def close_connection(conn):
-    """
-    Fecha uma conexão PostgreSQL ativa, se existir.
-
-    Args:
-        conn (psycopg2.connection): Conexão a ser fechada.
-    """
     if conn:
         conn.close()
         print("[X] Conexão com o banco de dados encerrada.")

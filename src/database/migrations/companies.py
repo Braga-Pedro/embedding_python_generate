@@ -1,31 +1,12 @@
-# receber conexão com o banco de dados
-# criar tabela companies com colunas:
-#    id → big_integer
-#    codigo → big_integer
-#    nome_empresa → string(300)
-#    cidade → string(100)
-#    bairro → string(150)
-#    estado → enum(string(2)) [RN, PB, CE… todas as siglas dos estados brasileiros]
-#    texto → text
-#    telefone → string(425) | nullable
-#    atividade → string(512)
-
-from database.connection import get_connection, close_connection
+from database.utils.connections import get_connection, close_connection
 from config import connection_credentials
 
 def create_companies_table():
-    """
-    Cria a tabela 'companies' no banco de dados PostgreSQL.
-
-    Args:
-        conn (psycopg2.connection): Conexão ativa com o banco de dados.
-    """
 
     conn = get_connection(connection_credentials)
 
     try:
         with conn.cursor() as cur:
-            # Criação do tipo ENUM para estado, se ainda não existir
             cur.execute("""
                 DO $$
                 BEGIN
@@ -44,7 +25,6 @@ def create_companies_table():
                 $$;
             """)
 
-            # Criação da tabela companies
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS companies (
                     id BIGSERIAL PRIMARY KEY,
@@ -65,7 +45,6 @@ def create_companies_table():
                 );
             """)
 
-            # 3. Criar função de trigger para atualizar o campo updated_at
             cur.execute("""
                 CREATE OR REPLACE FUNCTION update_updated_at_column()
                 RETURNS TRIGGER AS $$
@@ -76,7 +55,6 @@ def create_companies_table():
                 $$ language 'plpgsql';
             """)
 
-            # 4. Criar trigger associada à tabela companies
             cur.execute("""
                 DO $$
                 BEGIN
