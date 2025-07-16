@@ -1,4 +1,4 @@
-# Gerador de Embeddings para Dados Empresariais
+# Script de geração de dados vetoriais a partir de dados empresarias
 
 Esssa é a primeira etapa de um projeto, tem como objetivo gerar embeddings dos dados que inicialmente são CSV e transformar no final em dados vetoriais, permitindo que modelos de linguagem (LLMs) possam realizar buscas inteligentes e análises contextuais baseadas nos dados internos da própria empresa (RAG).
 
